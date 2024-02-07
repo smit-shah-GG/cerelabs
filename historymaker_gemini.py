@@ -116,5 +116,11 @@ def ask():
         }
     )
 
+@app.route("/full_history", methods=["POST"])
+@cross_origin()
+def full_history():
+
+    return jsonify(str(chat.history[0]))
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5052)
