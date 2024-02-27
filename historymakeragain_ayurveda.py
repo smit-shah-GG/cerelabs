@@ -29,7 +29,7 @@ text_file = r"E:\Work\sem5backups\localdata\apikey.txt"
 with open(text_file, "r") as f:
     api_key = f.read().strip()
 
-llm = OpenAI(openai_api_key=api_key)
+llm = OpenAI(openai_api_key=api_key, model="gpt-3.5-turbo-instruct")
 
 # import wikipedia sentences
 candidate_sentences = pd.read_csv(

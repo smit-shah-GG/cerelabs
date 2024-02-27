@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import pandas as pd
 import spacy
-from spacy import displacy
 import google.generativeai as genai
 
 # Load the English language model
@@ -97,7 +96,7 @@ chat = model.start_chat(history=[])
 @cross_origin()
 def ask():
 
-    question = str(request.json["question"]) + " Explain in short"
+    question = str(request.json["question"]) + ". Explain in short"
 
     entities = get_entities(question)
 
@@ -105,6 +104,7 @@ def ask():
     context.append(question)
     for i in entities:
         context.append(return_context(i))
+    context.append(". Answer in plaintext and not markdown.")
 
     response = chat.send_message(str(context))
 
@@ -123,4 +123,4 @@ def full_history():
     return jsonify(str(chat.history[0]))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5052)
+    app.run(host="0.0.0.0", port=5051)
