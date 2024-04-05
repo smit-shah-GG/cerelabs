@@ -96,7 +96,7 @@ chat = model.start_chat(history=[])
 @cross_origin()
 def ask():
 
-    question = str(request.json["question"]) + ". Explain in short"
+    question = str(request.json["question"]) + ". Explain in short. Answer in plaintext and not markdown."
 
     entities = get_entities(question)
 
@@ -104,7 +104,6 @@ def ask():
     context.append(question)
     for i in entities:
         context.append(return_context(i))
-    context.append(". Answer in plaintext and not markdown.")
 
     response = chat.send_message(str(context))
 
