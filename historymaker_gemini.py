@@ -19,7 +19,7 @@ with open(text_file, "r") as f:
     api_key = f.read().strip()
 genai.configure(api_key=api_key)
 
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-pro-latest')
 chat = model.start_chat(history=[])
 
 # import wikipedia sentences
@@ -87,7 +87,7 @@ def get_entities(sentence):
         for x in lisst:
             sentence = sentence + str(x)
 
-        i = x
+        i = x    
     return lister
 
 chat = model.start_chat(history=[])
@@ -114,6 +114,21 @@ def ask():
             "question": context
         }
     )
+    
+@app.route("/ask_no_context", methods=["POST"])
+@cross_origin()
+def ask_no_context():
+    question = str(request.json["question"]) + ". Explain in short. Answer in plaintext and not markdown."
+    
+    response = model.generate_content(str(question))
+
+    return jsonify(
+        {
+            "response": response.text,
+            "question": question
+        }
+    )
+
 
 @app.route("/full_history", methods=["POST"])
 @cross_origin()
